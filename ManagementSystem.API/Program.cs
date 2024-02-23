@@ -1,6 +1,7 @@
 using ManagementSystem.API.Brokers.DateTimes;
 using ManagementSystem.API.Brokers.Loggings;
 using ManagementSystem.API.Brokers.Storages;
+using ManagementSystem.API.Services.Foundations.Assignments;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +15,13 @@ builder.Services.AddSwaggerGen();
 //DbContext
 builder.Services.AddDbContext<StorageBroker>();
 
-//brokers
+//Brokers
 builder.Services.AddTransient<IStorageBroker, StorageBroker>();
 builder.Services.AddTransient<ILoggingBroker, LoggingBroker>();
 builder.Services.AddTransient<IDateTimeBroker, DateTimeBroker>();
 
+//Services
+builder.Services.AddTransient<IAssignmentService, AssignmentService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
