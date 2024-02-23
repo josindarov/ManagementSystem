@@ -10,7 +10,7 @@ public partial class StorageBroker
     public async ValueTask<Assignment> InsertAssignmentsAsync(Assignment assignment) =>
         await InsertAsync(assignment);
 
-    public IQueryable<Assignment> SelectAllAssignmentsAsync() =>
+    public IQueryable<Assignment> SelectAllAssignments() =>
         SelectAll<Assignment>();
 
     public async ValueTask<Assignment> SelectAssignmentsByIdAsync(Guid id) =>
