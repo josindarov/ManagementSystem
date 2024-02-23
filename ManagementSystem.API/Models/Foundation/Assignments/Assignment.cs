@@ -1,6 +1,6 @@
 namespace ManagementSystem.API.Models.Foundation.Assignments;
 
-public class Assignments
+public class Assignment
 {
     public Guid Id { get; set; }
 

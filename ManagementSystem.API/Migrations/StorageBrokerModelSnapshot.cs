@@ -22,7 +22,7 @@ namespace ManagementSystem.API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ManagementSystem.API.Models.Foundation.Assignments.Assignments", b =>
+            modelBuilder.Entity("ManagementSystem.API.Models.Foundation.Assignment.Assignment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -48,7 +48,7 @@ namespace ManagementSystem.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Assignments");
+                    b.ToTable("Assignment");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,9 +5,9 @@ namespace ManagementSystem.API.Brokers.Storages;
 
 public partial interface IStorageBroker
 {
-    ValueTask<Assignments> InsertAssignmentsAsync(Assignments assignments);
-    IQueryable<Assignments> SelectAllAssignmentsAsync();
-    ValueTask<Assignments> SelectAssignmentsByIdAsync(Guid id);
-    ValueTask<Assignments> UpdateAssignmentsAsync(Assignments assignments);
-    ValueTask<Assignments> DeleteAssignmentsAsync(Assignments assignments);
+    ValueTask<Assignment> InsertAssignmentsAsync(Assignment assignment);
+    IQueryable<Assignment> SelectAllAssignmentsAsync();
+    ValueTask<Assignment> SelectAssignmentsByIdAsync(Guid id);
+    ValueTask<Assignment> UpdateAssignmentsAsync(Assignment assignment);
+    ValueTask<Assignment> DeleteAssignmentsAsync(Assignment assignment);
 }

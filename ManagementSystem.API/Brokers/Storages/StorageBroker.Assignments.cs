@@ -5,20 +5,20 @@ namespace ManagementSystem.API.Brokers.Storages;
 
 public partial class StorageBroker
 {
-    public DbSet<Assignments> Assignments { get; set; }
+    public DbSet<Assignment> Assignments { get; set; }
 
-    public async ValueTask<Assignments> InsertAssignmentsAsync(Assignments assignments) =>
-        await InsertAsync(assignments);
+    public async ValueTask<Assignment> InsertAssignmentsAsync(Assignment assignment) =>
+        await InsertAsync(assignment);
 
-    public IQueryable<Assignments> SelectAllAssignmentsAsync() =>
-        SelectAll<Assignments>();
+    public IQueryable<Assignment> SelectAllAssignmentsAsync() =>
+        SelectAll<Assignment>();
 
-    public async ValueTask<Assignments> SelectAssignmentsByIdAsync(Guid id) =>
-        await SelectAsync<Assignments>(id);
+    public async ValueTask<Assignment> SelectAssignmentsByIdAsync(Guid id) =>
+        await SelectAsync<Assignment>(id);
 
-    public async ValueTask<Assignments> UpdateAssignmentsAsync(Assignments assignments) =>
-        await UpdateAsync(assignments);
+    public async ValueTask<Assignment> UpdateAssignmentsAsync(Assignment assignment) =>
+        await UpdateAsync(assignment);
 
-    public async ValueTask<Assignments> DeleteAssignmentsAsync(Assignments assignments) =>
-        await DeleteAsync(assignments);
+    public async ValueTask<Assignment> DeleteAssignmentsAsync(Assignment assignment) =>
+        await DeleteAsync(assignment);
 }
