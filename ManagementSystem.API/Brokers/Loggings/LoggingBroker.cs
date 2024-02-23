@@ -2,33 +2,26 @@ namespace ManagementSystem.API.Brokers.Loggings;
 
 public class LoggingBroker : ILoggingBroker
 {
-    public void LogInformation(string message)
-    {
-        throw new NotImplementedException();
-    }
+    private readonly ILogger<LoggingBroker> logger;
 
-    public void LogTrace(string message)
-    {
-        throw new NotImplementedException();
-    }
+    public LoggingBroker(ILogger<LoggingBroker> logger) =>
+        this.logger = logger;
 
-    public void LogDebug(string message)
-    {
-        throw new NotImplementedException();
-    }
+    public void LogInformation(string message) =>
+        this.logger.LogInformation(message);
 
-    public void LogWarning(string message)
-    {
-        throw new NotImplementedException();
-    }
+    public void LogTrace(string message) =>
+        this.logger.LogTrace(message);
 
-    public void LogError(Exception exception)
-    {
-        throw new NotImplementedException();
-    }
+    public void LogDebug(string message) =>
+        this.logger.LogDebug(message);
 
-    public void LogCritical(Exception exception)
-    {
-        throw new NotImplementedException();
-    }
+    public void LogWarning(string message) =>
+        this.logger.LogWarning(message);
+
+    public void LogError(Exception exception) =>
+        this.logger.LogError(exception.Message, exception);
+
+    public void LogCritical(Exception exception) =>
+        this.logger.LogCritical(exception.Message, exception);
 }
