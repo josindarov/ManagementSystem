@@ -1,3 +1,5 @@
+using ManagementSystem.API.Brokers.DateTimes;
+using ManagementSystem.API.Brokers.Loggings;
 using ManagementSystem.API.Brokers.Storages;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,9 @@ builder.Services.AddDbContext<StorageBroker>();
 
 //brokers
 builder.Services.AddTransient<IStorageBroker, StorageBroker>();
+builder.Services.AddTransient<ILoggingBroker, LoggingBroker>();
+builder.Services.AddTransient<IDateTimeBroker, DateTimeBroker>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
