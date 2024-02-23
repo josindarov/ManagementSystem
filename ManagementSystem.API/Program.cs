@@ -9,6 +9,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//DbContext
+builder.Services.AddDbContext<StorageBroker>();
+
 //brokers
 builder.Services.AddTransient<IStorageBroker, StorageBroker>();
 var app = builder.Build();
