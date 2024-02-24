@@ -35,8 +35,15 @@ public partial class AssignmentService
         {
             var failedAssignmentStorageException =
                 new FailedAssignmentStorageException(sqlException);
-            
+
             throw CreateAndLogCriticalDependencyException(failedAssignmentStorageException);
+        }
+        catch (Exception exception)
+        {
+            var failedAssignmentServiceException =
+                new FailedAssignmentServiceException(exception);
+
+            throw CreateAndLogServiceException(failedAssignmentServiceException);
         }
     }
 
@@ -56,5 +63,14 @@ public partial class AssignmentService
         
         this.loggingBroker.LogCritical(assignmentDependencyException);
         return assignmentDependencyException;
+    }
+
+    private Exception CreateAndLogServiceException(Exception exception)
+    {
+        var assignmentServiceException = 
+            new AssignmentServiceException(exception);
+
+        this.loggingBroker.LogError(assignmentServiceException);
+        return assignmentServiceException;
     }
 }
