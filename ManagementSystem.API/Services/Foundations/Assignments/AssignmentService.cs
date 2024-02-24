@@ -24,12 +24,12 @@ public partial class AssignmentService : IAssignmentService
         TryCatch(async () =>
         {
             ValidateAssignmentOnAdd(assignment);
-            return await storageBroker.InsertAssignmentsAsync(assignment);
+            return await this.storageBroker.InsertAssignmentsAsync(assignment);
         });
 
     public IQueryable<Assignment> RetrieveAllAssignment()
     {
-        throw new NotImplementedException();
+        return this.storageBroker.SelectAllAssignments();
     }
 
     public async ValueTask<Assignment> RetrieveAssignmentByIdAsync(Guid id)
