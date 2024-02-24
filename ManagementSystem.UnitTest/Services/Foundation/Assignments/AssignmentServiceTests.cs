@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using ManagementSystem.API.Brokers.DateTimes;
 using ManagementSystem.API.Brokers.Loggings;
 using ManagementSystem.API.Brokers.Storages;
@@ -5,6 +6,7 @@ using ManagementSystem.API.Models.Foundation.Assignments;
 using ManagementSystem.API.Services.Foundations.Assignments;
 using Moq;
 using Tynamix.ObjectFiller;
+using Xeptions;
 
 namespace ManagementSystem.UnitTest.Services.Foundation.Assignments;
 
@@ -42,4 +44,7 @@ public partial class AssignmentServiceTests
 
         return filler;
     }
+    
+    private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException) =>
+        actualException => actualException.SameExceptionAs(expectedException);
 }
