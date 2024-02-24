@@ -1,3 +1,4 @@
+using FluentAssertions;
 using ManagementSystem.API.Models.Foundation.Assignments;
 using ManagementSystem.API.Models.Foundation.Assignments.Exceptions;
 using Moq;
@@ -67,10 +68,12 @@ public partial class AssignmentServiceTests
         Action retrieveAllAssignmentsAction = () =>
             this.assignmentService.RetrieveAllAssignment();
 
-        Assert.Throws<AssignmentServiceException>(
+        AssignmentServiceException actualAssignmentServiceException = Assert.Throws<AssignmentServiceException>(
             retrieveAllAssignmentsAction);
 
         // then
+        actualAssignmentServiceException.Should().BeEquivalentTo(expectedAssignmentServiceException);
+        
         this.storageBrokerMock.Verify(broker =>
                 broker.SelectAllAssignments(),
             Times.Once);

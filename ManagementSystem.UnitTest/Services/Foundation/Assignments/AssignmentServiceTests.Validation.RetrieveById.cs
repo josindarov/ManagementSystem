@@ -44,4 +44,47 @@ public partial class AssignmentServiceTests
         this.storageBrokerMock.VerifyNoOtherCalls();
         this.dateTimeBrokerMock.VerifyNoOtherCalls();
     }
+    
+    [Fact]
+    public async void ShouldThrowValidationExceptionOnRetrieveByIdWhenStorageAssignmentIsNullAndLogItAsync()
+    {
+        //given
+        Guid randomAssignmentId = Guid.NewGuid();
+        Guid inputAssignmentId = randomAssignmentId;
+        Assignment invalidStorageAssignment = null;
+
+        var notFoundAssignmentException = new NotFoundAssignmentException(inputAssignmentId);
+
+        var expectedAssignmentValidationException = new AssignmentValidationException(notFoundAssignmentException);
+
+        this.storageBrokerMock.Setup(broker =>
+                broker.SelectAssignmentsByIdAsync(inputAssignmentId))!
+            .ReturnsAsync(invalidStorageAssignment);
+
+        //when
+        ValueTask<Assignment> retrieveAssignmentByIdTask =
+            this.assignmentService.RetrieveAssignmentByIdAsync(inputAssignmentId);
+
+        AssignmentValidationException actualAssignmentValidationException = await Assert
+            .ThrowsAsync<AssignmentValidationException>(() =>
+            retrieveAssignmentByIdTask.AsTask());
+        
+        //then
+        actualAssignmentValidationException.Should().BeEquivalentTo(expectedAssignmentValidationException);
+        
+        this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(expectedAssignmentValidationException))),
+            Times.Once);
+
+        this.dateTimeBrokerMock.Verify(broker => broker.GetCurrentDateTime(),
+            Times.Never);
+
+        this.storageBrokerMock.Verify(broker =>
+                broker.SelectAssignmentsByIdAsync(It.IsAny<Guid>()),
+            Times.Once);
+
+        this.dateTimeBrokerMock.VerifyNoOtherCalls();
+        this.loggingBrokerMock.VerifyNoOtherCalls();
+        this.storageBrokerMock.VerifyNoOtherCalls();
+    }
 }
