@@ -62,6 +62,13 @@ public partial class AssignmentService
 
             throw CreateAndLogCriticalDependencyException(failedAssignmentStorageException);
         }
+        catch (Exception exception)
+        {
+            var failedAssignmentServiceException =
+                new FailedAssignmentServiceException(exception);
+
+            throw CreateAndLogServiceException(failedAssignmentServiceException);
+        }
     }
 
     private Exception CreateAndLogValidationException(Xeption exception)
