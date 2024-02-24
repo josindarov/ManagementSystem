@@ -12,13 +12,16 @@ public partial class AssignmentServiceTests
         // given
         var sqlException = GetSqlException();
 
+        var failedAssignmentStorageException =
+            new FailedAssignmentStorageException(sqlException);
+        
         var expectedAssignmentDependencyException =
-            new AssignmentDependencyException(sqlException);
+            new AssignmentDependencyException(failedAssignmentStorageException);
 
         this.storageBrokerMock.Setup(broker =>
                 broker.SelectAllAssignments())
             .Throws(sqlException);
-
+    
         // when
         Action retrieveAllAssignmentsAction = () =>
             this.assignmentService.RetrieveAllAssignment();

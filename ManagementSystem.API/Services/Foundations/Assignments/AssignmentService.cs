@@ -27,10 +27,11 @@ public partial class AssignmentService : IAssignmentService
             return await this.storageBroker.InsertAssignmentsAsync(assignment);
         });
 
-    public IQueryable<Assignment> RetrieveAllAssignment()
-    {
-        return this.storageBroker.SelectAllAssignments();
-    }
+    public IQueryable<Assignment> RetrieveAllAssignment() =>
+        TryCatch(() =>
+        {
+            return this.storageBroker.SelectAllAssignments();
+        });
 
     public async ValueTask<Assignment> RetrieveAssignmentByIdAsync(Guid id)
     {

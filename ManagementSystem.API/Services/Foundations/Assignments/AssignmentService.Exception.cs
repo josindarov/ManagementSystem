@@ -10,6 +10,8 @@ public partial class AssignmentService
 {
     private delegate ValueTask<Assignment> ReturningAssignmentFunction();
 
+    private delegate IQueryable<Assignment> ReturningAllAssignmentsFunction();
+
     private async ValueTask<Assignment> TryCatch(ReturningAssignmentFunction returningAssignmentFunction)
     {
         try
@@ -44,6 +46,21 @@ public partial class AssignmentService
                 new FailedAssignmentServiceException(exception);
 
             throw CreateAndLogServiceException(failedAssignmentServiceException);
+        }
+    }
+
+    private IQueryable<Assignment> TryCatch(ReturningAllAssignmentsFunction returningAllAssignmentsFunction)
+    {
+        try
+        {
+            return returningAllAssignmentsFunction();
+        }
+        catch (SqlException sqlException)
+        {
+            var failedAssignmentStorageException =
+                new FailedAssignmentStorageException(sqlException);
+
+            throw CreateAndLogCriticalDependencyException(failedAssignmentStorageException);
         }
     }
 
