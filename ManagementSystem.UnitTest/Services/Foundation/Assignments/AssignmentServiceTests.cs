@@ -47,4 +47,6 @@ public partial class AssignmentServiceTests
     
     private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException) =>
         actualException => actualException.SameExceptionAs(expectedException);
+    
+    private static string GetRandomMessage() => new MnemonicString().GetValue();
 }
