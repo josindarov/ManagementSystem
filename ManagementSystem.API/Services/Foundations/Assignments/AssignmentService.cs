@@ -37,7 +37,12 @@ public partial class AssignmentService : IAssignmentService
         TryCatch(async () =>
         {
             ValidateAssignmentId(id);
-            return await this.storageBroker.SelectAssignmentsByIdAsync(id);
+            
+            Assignment assignment = await this.storageBroker
+                .SelectAssignmentsByIdAsync(id);
+            
+            ValidateStoreAssignment(assignment, id);
+            return assignment;
         });
 
     public async ValueTask<Assignment> ModifyAssignmentAsync(Assignment assignment)

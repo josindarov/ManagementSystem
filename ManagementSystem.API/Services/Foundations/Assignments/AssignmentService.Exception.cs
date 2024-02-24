@@ -26,6 +26,10 @@ public partial class AssignmentService
         {
             throw CreateAndLogValidationException(invalidAssignmentException);
         }
+        catch (NotFoundAssignmentException notFoundAssignmentException)
+        {
+            throw CreateAndLogValidationException(notFoundAssignmentException);
+        }
         catch (DuplicateKeyException duplicateKeyException)
         {
             var alreadyExistsAssignmentException =

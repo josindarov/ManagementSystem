@@ -27,6 +27,14 @@ public partial class AssignmentService
             throw new NullAssignmentException();
         }
     }
+
+    private static void ValidateStoreAssignment(Assignment assignment, Guid assignmentId)
+    {
+        if (assignment is null)
+        {
+            throw new NotFoundAssignmentException(assignmentId);
+        }
+    }
     
     private static void ValidateAssignmentId(Guid id) =>
         Validate((Rule: IsInvalid(id), Parameter: nameof(Assignment.Id)));
