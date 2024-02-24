@@ -5,7 +5,7 @@ using ManagementSystem.API.Models.Foundation.Assignments;
 
 namespace ManagementSystem.API.Services.Foundations.Assignments;
 
-public class AssignmentService : IAssignmentService
+public partial class AssignmentService : IAssignmentService
 {
     private readonly IStorageBroker storageBroker;
     private readonly ILoggingBroker loggingBroker;
@@ -19,10 +19,13 @@ public class AssignmentService : IAssignmentService
         this.loggingBroker = loggingBroker;
         this.dateTimeBroker = dateTimeBroker;
     }
-    public async ValueTask<Assignment> CreateAssignmentsAsync(Assignment assignment)
-    {
-        return await storageBroker.InsertAssignmentsAsync(assignment);
-    }
+
+    public ValueTask<Assignment> CreateAssignmentsAsync(Assignment assignment) =>
+        TryCatch(async () =>
+        {
+            ValidateAssignmentOnAdd(assignment);
+            return await storageBroker.InsertAssignmentsAsync(assignment);
+        });
 
     public IQueryable<Assignment> RetrieveAllAssignment()
     {
