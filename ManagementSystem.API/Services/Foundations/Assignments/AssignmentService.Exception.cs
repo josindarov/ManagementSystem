@@ -18,6 +18,10 @@ public partial class AssignmentService
         {
             throw CreateAndLogValidationException(nullAssignmentException);
         }
+        catch (InvalidAssignmentException invalidAssignmentException)
+        {
+            throw CreateAndLogValidationException(invalidAssignmentException);
+        }
     }
 
     private Exception CreateAndLogValidationException(Xeption exception)
