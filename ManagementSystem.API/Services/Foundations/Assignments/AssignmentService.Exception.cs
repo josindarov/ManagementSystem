@@ -1,3 +1,4 @@
+using EFxceptions.Models.Exceptions;
 using ManagementSystem.API.Models.Foundation.Assignments;
 using ManagementSystem.API.Models.Foundation.Assignments.Exceptions;
 using Xeptions;
@@ -21,6 +22,13 @@ public partial class AssignmentService
         catch (InvalidAssignmentException invalidAssignmentException)
         {
             throw CreateAndLogValidationException(invalidAssignmentException);
+        }
+        catch (DuplicateKeyException duplicateKeyException)
+        {
+            var alreadyExistsAssignmentException =
+                new AlreadyExistsAssignmentException(duplicateKeyException);
+
+            throw CreateAndLogValidationException(alreadyExistsAssignmentException);
         }
     }
 
