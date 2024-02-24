@@ -21,7 +21,7 @@ public class AssignmentService : IAssignmentService
     }
     public async ValueTask<Assignment> CreateAssignmentsAsync(Assignment assignment)
     {
-        throw new NotImplementedException();
+        return await storageBroker.InsertAssignmentsAsync(assignment);
     }
 
     public IQueryable<Assignment> RetrieveAllAssignment()
