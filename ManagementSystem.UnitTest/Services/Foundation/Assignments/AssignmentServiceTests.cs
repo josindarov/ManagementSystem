@@ -1,9 +1,11 @@
 using System.Linq.Expressions;
+using System.Runtime.Serialization;
 using ManagementSystem.API.Brokers.DateTimes;
 using ManagementSystem.API.Brokers.Loggings;
 using ManagementSystem.API.Brokers.Storages;
 using ManagementSystem.API.Models.Foundation.Assignments;
 using ManagementSystem.API.Services.Foundations.Assignments;
+using Microsoft.Data.SqlClient;
 using Moq;
 using Tynamix.ObjectFiller;
 using Xeptions;
@@ -49,4 +51,6 @@ public partial class AssignmentServiceTests
         actualException => actualException.SameExceptionAs(expectedException);
     
     private static string GetRandomMessage() => new MnemonicString().GetValue();
+    private static SqlException GetSqlException() =>
+        (SqlException)FormatterServices.GetUninitializedObject(typeof(SqlException));
 }
