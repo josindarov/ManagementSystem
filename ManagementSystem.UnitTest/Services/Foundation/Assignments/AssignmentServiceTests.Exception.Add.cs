@@ -17,8 +17,11 @@ public partial class AssignmentServiceTests
         Assignment inputAssignment = randomAssignment;
         var sqlException = GetSqlException();
 
+        var failedAssignmentStorageException =
+            new FailedAssignmentStorageException(sqlException);
+        
         var expectedAssignmentDependencyException =
-            new AssignmentDependencyException(sqlException);
+            new AssignmentDependencyException(failedAssignmentStorageException);
 
         this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTime())
@@ -39,7 +42,7 @@ public partial class AssignmentServiceTests
 
         this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
-            Times.Once);
+            Times.Never);
 
         this.storageBrokerMock.Verify(broker =>
                 broker.InsertAssignmentsAsync(
@@ -47,8 +50,7 @@ public partial class AssignmentServiceTests
             Times.Once);
 
         this.loggingBrokerMock.Verify(broker =>
-                broker.LogCritical(It.Is(SameExceptionAs(
-                    expectedAssignmentDependencyException))),
+                broker.LogCritical(It.Is(SameExceptionAs(expectedAssignmentDependencyException))),
             Times.Once);
 
         this.dateTimeBrokerMock.VerifyNoOtherCalls();
