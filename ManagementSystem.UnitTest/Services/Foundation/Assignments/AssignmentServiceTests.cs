@@ -53,4 +53,8 @@ public partial class AssignmentServiceTests
     private static string GetRandomMessage() => new MnemonicString().GetValue();
     private static SqlException GetSqlException() =>
         (SqlException)FormatterServices.GetUninitializedObject(typeof(SqlException));
+    
+    private static int GetRandomNumber() => new IntRange(min: 2, max: 150).GetValue();
+    private static IQueryable<Assignment> CreateRandomAssignments(DateTimeOffset dates) =>
+        CreateAssignmentFiller(dates).Create(GetRandomNumber()).AsQueryable();
 }
