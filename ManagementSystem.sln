@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementSystem.API", "ManagementSystem.API\ManagementSystem.API.csproj", "{E610B58E-E359-4E41-AEBE-A2BFE921E95D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementSystem.UnitTest", "ManagementSystem.UnitTest\ManagementSystem.UnitTest.csproj", "{AB629724-DBD8-47B3-A6A9-99187AF58409}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{E610B58E-E359-4E41-AEBE-A2BFE921E95D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E610B58E-E359-4E41-AEBE-A2BFE921E95D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E610B58E-E359-4E41-AEBE-A2BFE921E95D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB629724-DBD8-47B3-A6A9-99187AF58409}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB629724-DBD8-47B3-A6A9-99187AF58409}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB629724-DBD8-47B3-A6A9-99187AF58409}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB629724-DBD8-47B3-A6A9-99187AF58409}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
