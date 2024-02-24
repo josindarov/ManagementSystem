@@ -1,3 +1,4 @@
+using FluentAssertions;
 using ManagementSystem.API.Models.Foundation.Assignments;
 using ManagementSystem.API.Models.Foundation.Assignments.Exceptions;
 using Microsoft.Data.SqlClient;
@@ -36,10 +37,13 @@ public partial class AssignmentServiceTests
         ValueTask<Assignment> createAssignmentTask =
             this.assignmentService.CreateAssignmentsAsync(inputAssignment);
 
-        // then
-        await Assert.ThrowsAsync<AssignmentDependencyException>(() =>
+        AssignmentDependencyException actualAssignmentDependencyException = await Assert
+            .ThrowsAsync<AssignmentDependencyException>(() =>
             createAssignmentTask.AsTask());
-
+        
+        // then
+        actualAssignmentDependencyException.Should().BeEquivalentTo(expectedAssignmentDependencyException);
+        
         this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
             Times.Never);
@@ -85,10 +89,13 @@ public partial class AssignmentServiceTests
         ValueTask<Assignment> createAssignmentTask =
             this.assignmentService.CreateAssignmentsAsync(someAssignment);
 
-        // then
-        await Assert.ThrowsAsync<AssignmentServiceException>(() =>
+        AssignmentServiceException actualAssignmentServiceException = await Assert
+            .ThrowsAsync<AssignmentServiceException>(() =>
             createAssignmentTask.AsTask());
-
+        
+        // then
+        actualAssignmentServiceException.Should().BeEquivalentTo(expectedAssignmentServiceException);
+        
         this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
             Times.Never);
