@@ -27,6 +27,9 @@ public partial class AssignmentService
             throw new NullAssignmentException();
         }
     }
+    
+    private static void ValidateAssignmentId(Guid id) =>
+        Validate((Rule: IsInvalid(id), Parameter: nameof(Assignment.Id)));
 
     private static dynamic IsInvalid(string text) => new
     {
