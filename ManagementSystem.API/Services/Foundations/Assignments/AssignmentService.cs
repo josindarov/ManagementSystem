@@ -57,11 +57,13 @@ public partial class AssignmentService : IAssignmentService
             return await this.storageBroker.UpdateAssignmentsAsync(assignment);
         });
 
-    public async ValueTask<Assignment> RemoveAssignmentAsync(Guid id)
-    {
-        Assignment assignment = await this.storageBroker
-            .SelectAssignmentsByIdAsync(id);
-
-        return await this.storageBroker.DeleteAssignmentsAsync(assignment);
-    }
+    public ValueTask<Assignment> RemoveAssignmentAsync(Guid id) =>
+        TryCatch(async () =>
+        {
+            ValidateAssignmentId(id);
+            
+            Assignment assignment = await this.storageBroker
+                .SelectAssignmentsByIdAsync(id);
+            return await this.storageBroker.DeleteAssignmentsAsync(assignment);
+        });
 }
