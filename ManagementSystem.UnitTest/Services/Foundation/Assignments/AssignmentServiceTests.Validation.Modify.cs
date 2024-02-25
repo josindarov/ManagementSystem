@@ -111,4 +111,52 @@ public partial class AssignmentServiceTests
         this.loggingBrokerMock.VerifyNoOtherCalls();
         this.storageBrokerMock.VerifyNoOtherCalls();
     }
+    
+    [Fact]
+    public async Task ShouldThrowValidationExceptionOnModifyIfAssignmentDoesntExistAndLogItAsync()
+    {
+        // given
+        DateTimeOffset dateTime = GetRandomDateTime();
+        Assignment randomAssignment = CreateRandomAssignment(dateTime);
+        Assignment nonExistentAssignment = randomAssignment;
+        Assignment noAssignment = null;
+        
+        var notFoundAssignmentException = 
+            new NotFoundAssignmentException(nonExistentAssignment.Id);
+
+        var expectedAssignmentValidationException =
+            new AssignmentValidationException(notFoundAssignmentException);
+
+        this.storageBrokerMock.Setup(broker =>
+                broker.SelectAssignmentsByIdAsync(nonExistentAssignment.Id))!
+                .ReturnsAsync(noAssignment);
+
+        this.dateTimeBrokerMock.Setup(broker =>
+            broker.GetCurrentDateTime())
+                .Returns(dateTime);
+
+        // when
+        ValueTask<Assignment> modifyAssignmentTask =
+            this.assignmentService.ModifyAssignmentAsync(nonExistentAssignment);
+
+        // then
+        await Assert.ThrowsAsync<AssignmentValidationException>(() =>
+            modifyAssignmentTask.AsTask());
+
+        this.dateTimeBrokerMock.Verify(broker =>
+            broker.GetCurrentDateTime(),
+                Times.Never);
+
+        this.storageBrokerMock.Verify(broker =>
+            broker.SelectAssignmentsByIdAsync(nonExistentAssignment.Id),
+                Times.Once);
+
+        this.loggingBrokerMock.Verify(broker =>
+            broker.LogError(It.Is(SameExceptionAs(expectedAssignmentValidationException))),
+                Times.Once);
+
+        this.loggingBrokerMock.VerifyNoOtherCalls();
+        this.storageBrokerMock.VerifyNoOtherCalls();
+        this.dateTimeBrokerMock.VerifyNoOtherCalls();
+    }
 }
