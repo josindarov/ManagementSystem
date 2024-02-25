@@ -58,4 +58,54 @@ public partial class AssignmentServiceTests
         this.storageBrokerMock.VerifyNoOtherCalls();
     }
 
+    [Fact]
+    public async Task ShouldThrowServiceExceptionOnModifyIfServiceExceptionOccursAndLogItAsync()
+    {
+        // given
+        DateTimeOffset randomDateTime = GetRandomDateTime();
+        Assignment someAssignment = CreateRandomAssignment(randomDateTime);
+        var serviceException = new Exception();
+
+        var failedAssignmentServiceException =
+            new FailedAssignmentServiceException(serviceException);
+
+        var expectedAssignmentServiceException =
+            new AssignmentServiceException(failedAssignmentServiceException);
+
+        this.storageBrokerMock.Setup(broker =>
+            broker.SelectAssignmentsByIdAsync(It.IsAny<Guid>()))
+                .ThrowsAsync(serviceException);
+
+        this.dateTimeBrokerMock.Setup(broker =>
+            broker.GetCurrentDateTime())
+                .Returns(randomDateTime);
+
+        // when
+        ValueTask<Assignment> modifyAssignmentTask =
+            this.assignmentService.ModifyAssignmentAsync(someAssignment);
+
+        AssignmentServiceException actualAssignmentServiceException = await Assert
+            .ThrowsAsync<AssignmentServiceException>(() =>
+            modifyAssignmentTask.AsTask());
+        
+        // then
+        actualAssignmentServiceException.Should().BeEquivalentTo(expectedAssignmentServiceException);
+
+        this.dateTimeBrokerMock.Verify(broker =>
+            broker.GetCurrentDateTime(),
+                Times.Never);
+
+        this.storageBrokerMock.Verify(broker =>
+            broker.SelectAssignmentsByIdAsync(It.IsAny<Guid>()),
+                Times.Once);
+
+        this.loggingBrokerMock.Verify(broker =>
+            broker.LogError(It.Is(SameExceptionAs(expectedAssignmentServiceException))),
+                Times.Once);
+
+        this.dateTimeBrokerMock.VerifyNoOtherCalls();
+        this.loggingBrokerMock.VerifyNoOtherCalls();
+        this.storageBrokerMock.VerifyNoOtherCalls();
+    }
+
 }
