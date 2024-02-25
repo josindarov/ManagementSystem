@@ -45,10 +45,12 @@ public partial class AssignmentService : IAssignmentService
             return assignment;
         });
 
-    public async ValueTask<Assignment> ModifyAssignmentAsync(Assignment assignment)
-    {
-        return await this.storageBroker.UpdateAssignmentsAsync(assignment);
-    }
+    public ValueTask<Assignment> ModifyAssignmentAsync(Assignment assignment) =>
+        TryCatch(async () =>
+        {
+            ValidateAssignmentOnModify(assignment);
+            return await this.storageBroker.UpdateAssignmentsAsync(assignment);
+        });
 
     public async ValueTask<Assignment> RemoveAssignmentAsync(Guid id)
     {

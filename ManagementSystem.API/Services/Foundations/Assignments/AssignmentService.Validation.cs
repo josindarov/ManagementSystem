@@ -19,6 +19,11 @@ public partial class AssignmentService
             (Rule: IsInvalid(assignment.DueDate), Parameter: nameof(Assignment.DueDate))
             );
     }
+
+    private static void ValidateAssignmentOnModify(Assignment assignment)
+    {
+        ValidateAssignmentNotNull(assignment);
+    }
     
     private static void ValidateAssignmentNotNull(Assignment assignment)
     {
