@@ -139,10 +139,14 @@ public partial class AssignmentServiceTests
         ValueTask<Assignment> modifyAssignmentTask =
             this.assignmentService.ModifyAssignmentAsync(nonExistentAssignment);
 
-        // then
-        await Assert.ThrowsAsync<AssignmentValidationException>(() =>
+        AssignmentValidationException actualAssignmentValidationException = await Assert
+            .ThrowsAsync<AssignmentValidationException>(() =>
             modifyAssignmentTask.AsTask());
-
+        
+        // then
+        actualAssignmentValidationException.Should()
+            .BeEquivalentTo(expectedAssignmentValidationException);
+        
         this.dateTimeBrokerMock.Verify(broker =>
             broker.GetCurrentDateTime(),
                 Times.Never);
