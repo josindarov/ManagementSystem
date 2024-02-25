@@ -23,6 +23,15 @@ public partial class AssignmentService
     private static void ValidateAssignmentOnModify(Assignment assignment)
     {
         ValidateAssignmentNotNull(assignment);
+        Validate(
+            (Rule: IsInvalid(assignment.Id), Parameter: nameof(Assignment.Id)),
+            (Rule: IsInvalid(assignment.Description), Parameter: nameof(Assignment.Description)),
+            (Rule: IsInvalid(assignment.Title), Parameter: nameof(Assignment.Title)),
+            (Rule: IsInvalid(assignment.Note), Parameter: nameof(Assignment.Note)),
+            (Rule: IsInvalid(assignment.State), Parameter: nameof(Assignment.State)),
+            (Rule: IsInvalid(assignment.TaskPriority), Parameter: nameof(Assignment.TaskPriority)),
+            (Rule: IsInvalid(assignment.DueDate), Parameter: nameof(Assignment.DueDate))
+        );
     }
     
     private static void ValidateAssignmentNotNull(Assignment assignment)
