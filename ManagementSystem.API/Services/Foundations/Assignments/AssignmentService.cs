@@ -64,6 +64,8 @@ public partial class AssignmentService : IAssignmentService
             
             Assignment assignment = await this.storageBroker
                 .SelectAssignmentsByIdAsync(id);
+            
+            ValidateStoreAssignment(assignment, id);
             return await this.storageBroker.DeleteAssignmentsAsync(assignment);
         });
 }
