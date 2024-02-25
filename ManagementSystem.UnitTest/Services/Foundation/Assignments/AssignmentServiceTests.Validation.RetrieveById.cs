@@ -46,7 +46,7 @@ public partial class AssignmentServiceTests
     }
     
     [Fact]
-    public async void ShouldThrowValidationExceptionOnRetrieveByIdWhenStorageAssignmentIsNullAndLogItAsync()
+    public async void ShouldThrowValidationExceptionOnRetrieveByIdIfStorageAssignmentIsNullAndLogItAsync()
     {
         //given
         Guid randomAssignmentId = Guid.NewGuid();
