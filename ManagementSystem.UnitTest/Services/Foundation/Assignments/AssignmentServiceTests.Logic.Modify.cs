@@ -43,7 +43,7 @@ public partial class AssignmentServiceTests
             broker.GetCurrentDateTime(), Times.Never);
         
         this.storageBrokerMock.Verify(broker => 
-            broker.SelectAssignmentsByIdAsync(assignmentId), Times.Never);
+            broker.SelectAssignmentsByIdAsync(assignmentId), Times.Once);
         
         this.storageBrokerMock.Verify(broker =>
             broker.UpdateAssignmentsAsync(inputAssignment), Times.Once);
