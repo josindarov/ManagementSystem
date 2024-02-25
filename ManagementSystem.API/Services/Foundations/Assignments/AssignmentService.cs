@@ -59,6 +59,9 @@ public partial class AssignmentService : IAssignmentService
 
     public async ValueTask<Assignment> RemoveAssignmentAsync(Guid id)
     {
-        throw new NotImplementedException();
+        Assignment assignment = await this.storageBroker
+            .SelectAssignmentsByIdAsync(id);
+
+        return await this.storageBroker.DeleteAssignmentsAsync(assignment);
     }
 }
