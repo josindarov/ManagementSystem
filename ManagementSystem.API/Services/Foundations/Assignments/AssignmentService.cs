@@ -47,7 +47,7 @@ public partial class AssignmentService : IAssignmentService
 
     public async ValueTask<Assignment> ModifyAssignmentAsync(Assignment assignment)
     {
-        throw new NotImplementedException();
+        return await this.storageBroker.UpdateAssignmentsAsync(assignment);
     }
 
     public async ValueTask<Assignment> RemoveAssignmentAsync(Guid id)
