@@ -3,7 +3,7 @@ using RESTFulSense.Clients;
 
 namespace ManagementSystem.Web.Brokers.Apis;
 
-public class ApiBroker : IApiBroker
+public partial class ApiBroker : IApiBroker
 {
     private readonly IRESTFulApiFactoryClient apiClient;
     private readonly HttpClient httpClient;
