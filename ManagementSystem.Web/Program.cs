@@ -4,7 +4,7 @@ using ManagementSystem.Web;
 using ManagementSystem.Web.Brokers.Apis;
 using ManagementSystem.Web.Brokers.DateTimes;
 using ManagementSystem.Web.Brokers.Loggings;
-using ManagementSystem.Web.Services.Foundations.Assingments;
+using ManagementSystem.Web.Services.Foundations.Assignments;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
